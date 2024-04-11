@@ -17,6 +17,7 @@ return {
 
 			{
 				"nvimdev/lspsaga.nvim",
+				event = "LspAttach",
 				config = function()
 					return require("lspsaga").setup({
 						ui = {
@@ -33,7 +34,14 @@ return {
 					"nvim-treesitter/nvim-treesitter", -- optional
 					"nvim-tree/nvim-web-devicons", -- optional
 				},
-				opts = {},
+				opts = {
+					ui = {
+						border = settings.border,
+					},
+					outline = {
+						layout = "float",
+					},
+				},
 			},
 
 			-- Useful status updates for LSP
@@ -53,7 +61,8 @@ return {
 			-- Additional lua configuration, makes nvim stuff amazing!
 			{
 				"folke/neodev.nvim",
-				opts = {},
+				ft = "lua",
+				opts = { pathStrict = true, library = { plugins = { "nvim-dap-ui" }, types = true } },
 			},
 
 			-- Schema store

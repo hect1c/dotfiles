@@ -42,8 +42,7 @@ local on_attach = function(client, bufnr)
 
   nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 
-
-	nmap('gl', "<Cmd>Lspsaga show_line_diagnostics<CR>", 'Show Line Diagnostics')
+  nmap('gl', '<Cmd>Lspsaga show_line_diagnostics<CR>', 'Show Line Diagnostics')
 
   -- See `:help K` for why this keymap
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
@@ -68,6 +67,14 @@ end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
+local lsp_zero = require('lsp-zero')
+
+lsp_zero.on_attach(function(client, bufnr)
+  -- see :help lsp-zero-keybindings
+  -- to learn the available actions
+  lsp_zero.default_keymaps({ buffer = bufnr })
+end)
+
 -- Setup mason so it can manage external tooling
 require('mason').setup({
   ui = {
@@ -87,11 +94,16 @@ require('mason-lspconfig').setup({
     'tsserver',
     'vimls',
     'yamlls',
-		'tflint',
-		'eslint',
-		'graphql',
-		'terraformls',
-		'cssls',
+    'tflint',
+    'eslint',
+    'graphql',
+    'terraformls',
+    'cssls',
+  },
+  handlers = {
+    function(server_name)
+      require('lspconfig')[server_name].setup({})
+    end,
   },
 })
 

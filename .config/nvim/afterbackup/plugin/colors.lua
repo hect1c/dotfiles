@@ -1,0 +1,41 @@
+-- vim.g.dracula_colorterm=0
+-- vim.cmd[[colorscheme dracula]]
+
+-- vim.g.tokyonight_style = "night"
+-- vim.g.tokyonight_italic_functions = true
+-- vim.g.tokyonight_transparent = true
+-- vim.g.tokyonight_transparent_sidebar = true
+
+-- vim.cmd[[colorscheme tokyonight]]
+
+-- require("nightfox").setup({
+--   options = {
+--     transparent = true,
+--     styles = {
+--       comments = "italic",
+--       functions = "italic,bold"
+--     }
+--   }
+-- })
+--
+-- vim.cmd[[colorscheme duskfox]]
+
+-- vim.g.catppuccin_flavour = "frappe"
+--
+-- local colors = require("catppuccin.palettes").get_palette() -- fetch colors from g:catppuccin_flavour
+-- colors.none = "NONE"
+-- require("catppuccin").setup({
+--   transparent_background = true,
+--   custom_highlights = {
+--     		Comment = { fg = colors.overlay1 },
+-- 		LineNr = { fg = colors.overlay1 },
+-- 		CursorLine = { bg = colors.none },
+-- 		CursorLineNr = { fg = colors.lavender },
+-- 		DiagnosticVirtualTextError = { bg = colors.none },
+-- 		DiagnosticVirtualTextWarn = { bg = colors.none },
+-- 		DiagnosticVirtualTextInfo = { bg = colors.none },
+-- 		DiagnosticVirtualTextHint = { bg = colors.none },
+--   }
+-- })
+--
+-- vim.cmd([[colorscheme catppuccin]])

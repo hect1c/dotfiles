@@ -7,6 +7,7 @@ return {
 			"williamboman/mason.nvim", -- Used and configured in nvim-lspconfig.lua
 			{
 				"nvimtools/none-ls.nvim",
+				event = { "BufReadPre", "BufNewFile" },
 				dependencies = {
 					"nvimtools/none-ls-extras.nvim",
 				},
@@ -45,6 +46,9 @@ return {
 						diagnostics_postprocess = function(diagnostic)
 							diagnostic.code = diagnostic.message_id
 						end,
+					}),
+					diagnostics.zsh.with({
+						filetypes = { "zsh" },
 					}),
 
 					-- code actions

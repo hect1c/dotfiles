@@ -49,6 +49,7 @@ return {
 			{ "<leader>f", "<cmd>NvimTreeFocus<CR>", desc = "Focus NvimTree" },
 		},
 		init = function()
+			-- https://github.com/Ultra-Code/awesome-neovim/blob/master/lua/plugins/tree.lua
 			local autocmd = vim.api.nvim_create_autocmd
 
 			autocmd("BufEnter", {

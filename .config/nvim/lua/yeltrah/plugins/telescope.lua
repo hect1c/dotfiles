@@ -1,4 +1,4 @@
-local Remap = require("yeltrah.config.keymaps.bindings")
+local Remap = require('yeltrah.config.keymaps.bindings')
 local nnoremap = Remap.nnoremap
 local vnoremap = Remap.vnoremap
 
@@ -104,8 +104,8 @@ return {
       -- Enable persisted, if installed
       pcall(telescope.load_extension, 'persisted')
 
-			-- Enable project, if installed
-			pcall(telescope.load_extension, 'projects')
+      -- Enable project, if installed
+      pcall(telescope.load_extension, 'projects')
 
       -- Keymaps
       nnoremap('<leader>?', builtin.oldfiles, { desc = '[?] Find recently opened files' })
@@ -117,30 +117,30 @@ return {
           no_parent_ignore = true,
         })
       end, { desc = '[S]earch [A]ll Files' })
-      vim.keymap.set('n', '<leader>pf', builtin.find_files, { desc = '[S]earch [F]iles' })
-      vim.keymap.set('n', '<leader>pg', builtin.git_files, { desc = '[S]earch [G]it Files' })
-      vim.keymap.set('n', '<leader>pb', builtin.buffers, { desc = '[S]earch [B]uffers' })
-      vim.keymap.set('n', '<leader>ph', builtin.help_tags, { desc = '[S]earch [H]elp' })
-      vim.keymap.set('n', '<leader>pd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
-      vim.keymap.set('n', '<leader>pr', builtin.resume, { desc = '[S]earch [R]esume' })
-      vim.keymap.set('n', '<leader>pk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-      vim.keymap.set('n', '<leader>pc', builtin.commands, { desc = '[S]earch [C]ommands' })
+      nnoremap('<leader>pf', builtin.find_files, { desc = '[S]earch [F]iles' })
+      nnoremap('<leader>pg', builtin.git_files, { desc = '[S]earch [G]it Files' })
+      nnoremap('<leader>pb', builtin.buffers, { desc = '[S]earch [B]uffers' })
+      nnoremap('<leader>ph', builtin.help_tags, { desc = '[S]earch [H]elp' })
+      nnoremap('<leader>pd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
+      nnoremap('<leader>pr', builtin.resume, { desc = '[S]earch [R]esume' })
+      nnoremap('<leader>pk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
+      nnoremap('<leader>pc', builtin.commands, { desc = '[S]earch [C]ommands' })
 
       -- Enable telescope live grep args, if installed
       local ok = pcall(telescope.load_extension, 'live_grep_args')
       if ok then
-        vim.keymap.set('n', '<leader>pss', telescope.extensions.live_grep_args.live_grep_args, { desc = '[S]earch [S]omething' })
-        vim.keymap.set('n', '<leader>psw', lga_shortcuts.grep_word_under_cursor, { desc = '[S]earch current [W]ord' })
-        vim.keymap.set('v', '<leader>psv', lga_shortcuts.grep_visual_selection, { desc = '[S]earch [V]isual selection' })
+        nnoremap('<leader>pss', telescope.extensions.live_grep_args.live_grep_args, { desc = '[S]earch [S]omething' })
+        nnoremap('<leader>psw', lga_shortcuts.grep_word_under_cursor, { desc = '[S]earch current [W]ord' })
+        vnoremap('<leader>psv', lga_shortcuts.grep_visual_selection, { desc = '[S]earch [V]isual selection' })
       else
-        vim.keymap.set('n', '<leader>psw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
-        vim.keymap.set('n', '<leader>pss', builtin.live_grep, { desc = '[S]earch [S]omething' })
+        nnoremap('<leader>psw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
+        nnoremap('<leader>pss', builtin.live_grep, { desc = '[S]earch [S]omething' })
       end
 
       -- Enable harpoon, if installed
       ok = pcall(telescope.load_extension, 'harpoon')
       if ok then
-        vim.keymap.set('n', '<leader>hs', '<cmd>Telescope harpoon marks<CR>', { desc = '[H]arpoon [S]earch Files' })
+        nnoremap('<leader>hs', '<cmd>Telescope harpoon marks<CR>', { desc = '[H]arpoon [S]earch Files' })
       end
     end,
   },

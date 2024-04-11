@@ -46,7 +46,33 @@ return {
       local snippy = require('snippy')
       local luasnip = require('luasnip')
       local lspkind = require('lspkind')
-      local icons = require('config.defaults').icons.kinds
+      local icons = {
+        Text = '',
+        Method = 'm',
+        Function = '',
+        Constructor = '',
+        Field = '',
+        Variable = '',
+        Class = '',
+        Interface = '',
+        Module = '',
+        Property = '',
+        Unit = '',
+        Value = '',
+        Enum = '',
+        Keyword = '',
+        Snippet = '',
+        Color = '',
+        File = '',
+        Reference = '',
+        Folder = '',
+        EnumMember = '',
+        Constant = '',
+        Struct = '',
+        Event = '',
+        Operator = '',
+        TypeParameter = '',
+      }
 
       local check_backspace = function()
         local col = vim.fn.col('.') - 1

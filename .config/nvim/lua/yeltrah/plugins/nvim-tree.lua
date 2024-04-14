@@ -143,6 +143,7 @@ return {
           },
         },
         view = {
+          -- side = 'left',
           width = get_width,
           float = {
             enable = false,

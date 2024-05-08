@@ -30,6 +30,11 @@ local function on_attach(bufnr)
   vim.keymap.set('n', 'H', api.tree.collapse_all, opts('Collapse All'))
 end
 
+local get_width = function()
+  local width_ratio = 0.25
+  return math.floor(vim.opt.columns:get() * width_ratio)
+end
+
 return {
   {
     -- File explorer
@@ -107,11 +112,6 @@ return {
       })
     end,
     config = function()
-      local get_width = function()
-        local width_ratio = 0.25
-        return math.floor(vim.opt.columns:get() * width_ratio)
-      end
-
       require('nvim-tree').setup({
         on_attach = on_attach,
         hijack_netrw = true,
@@ -143,7 +143,6 @@ return {
           },
         },
         view = {
-          -- side = 'left',
           width = get_width,
           float = {
             enable = false,

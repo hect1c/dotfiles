@@ -1,5 +1,5 @@
 return {
-	{
-		"ahmedkhalf/project.nvim"
-	}
+  {
+    'ahmedkhalf/project.nvim',
+  },
 }

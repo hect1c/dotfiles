@@ -1,5 +1,5 @@
 local opts = { noremap = true, silent = true }
-local Remap = require("yeltrah.keymaps")
+local Remap = require("yeltrah.config.keymaps.bindings")
 local nnoremap = Remap.nnoremap
 local xnoremap = Remap.xnoremap
 

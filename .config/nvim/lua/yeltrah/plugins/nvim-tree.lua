@@ -58,36 +58,36 @@ return {
 
       -- when no file/directory is opened at startup
       -- skip nvim-tree so that dashboard can load
-      local cmdline_args = -1
-      if vim.fn.argc(cmdline_args) == 0 then
-        return
-      else
-        autocmd({ 'VimEnter' }, {
-          -- open nvim-tree for noname buffers and directory
-          callback = function(args)
-            -- buffer is a [No Name]
-            local no_name = args.file == '' and vim.bo[args.buf].buftype == ''
-            -- buffer is a directory
-            local directory = vim.fn.isdirectory(args.file) == 1
-
-            if not directory and not no_name then
-              return
-            end
-
-            local api = require('nvim-tree.api')
-
-            if directory then
-              -- change to the directory
-              vim.cmd.cd(args.file)
-              -- open the tree
-              api.tree.open()
-            else
-              -- open the tree, find the file but don't focus it
-              api.tree.toggle({ focus = false, find_file = true })
-            end
-          end,
-        })
-      end
+      -- local cmdline_args = -1
+      -- if vim.fn.argc(cmdline_args) == 0 then
+      --   return
+      -- else
+      --   autocmd({ 'VimEnter' }, {
+      --     -- open nvim-tree for noname buffers and directory
+      --     callback = function(args)
+      --       -- buffer is a [No Name]
+      --       local no_name = args.file == '' and vim.bo[args.buf].buftype == ''
+      --       -- buffer is a directory
+      --       local directory = vim.fn.isdirectory(args.file) == 1
+      --
+      --       if not directory and not no_name then
+      --         return
+      --       end
+      --
+      --       local api = require('nvim-tree.api')
+      --
+      --       if directory then
+      --         -- change to the directory
+      --         vim.cmd.cd(args.file)
+      --         -- open the tree
+      --         api.tree.open()
+      --       else
+      --         -- open the tree, find the file but don't focus it
+      --         api.tree.toggle({ focus = true, find_file = true })
+      --       end
+      --     end,
+      --   })
+      -- end
 
       -- https://github.com/nvim-tree/nvim-tree.lua/wiki/Recipes#workaround-when-using-rmagattiauto-session
       autocmd({ 'BufEnter' }, {
@@ -95,8 +95,7 @@ return {
         pattern = 'NvimTree*',
         callback = function()
           local api = require('nvim-tree.api')
-          local view = require('nvim-tree.view')
-          if not view.is_visible() then
+          if not api.tree.is_visible() then
             api.tree.open()
           end
         end,

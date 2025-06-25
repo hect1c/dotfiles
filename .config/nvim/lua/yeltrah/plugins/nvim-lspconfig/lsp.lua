@@ -70,8 +70,6 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 local lsp_zero = require('lsp-zero')
 
 lsp_zero.on_attach(function(client, bufnr)
-  -- see :help lsp-zero-keybindings
-  -- to learn the available actions
   lsp_zero.default_keymaps({ buffer = bufnr })
 end)
 
@@ -82,96 +80,64 @@ require('mason').setup({
   },
 })
 
-require('mason-lspconfig').setup({
-  ensure_installed = {
-    'bashls',
-    'gopls',
-    'jsonls',
-    'lua_ls',
-    'marksman',
-    'pyright',
-    'rust_analyzer',
-    'tsserver',
-    'vimls',
-    'yamlls',
-    'tflint',
-    'eslint',
-    'graphql',
-    'terraformls',
-    'cssls',
-  },
-  handlers = {
-    function(server_name)
-      require('lspconfig')[server_name].setup({})
-    end,
-  },
-})
+local servers = {
+  bashls = require('yeltrah.plugins.nvim-lspconfig.servers.bashls')(on_attach),
+  cssls = require('yeltrah.plugins.nvim-lspconfig.servers.cssls')(on_attach),
+  dockerls = {},
+  html = {},
+  jsonls = {},
+  lua_ls = require('yeltrah.plugins.nvim-lspconfig.servers.luals')(on_attach),
+  intelephense = require('yeltrah.plugins.nvim-lspconfig.servers.phpls')(on_attach),
+  pylsp = {},
+  gopls = {},
+  rust_analyzer = {},
+  tailwindcss = require('yeltrah.plugins.nvim-lspconfig.servers.tailwindcss')(on_attach),
+  terraformls = {},
+  tflint = {},
+  eslint = require('yeltrah.plugins.nvim-lspconfig.servers.eslint')(on_attach),
+  graphql = {},
+  vimls = {},
+  ts_ls = require('yeltrah.plugins.nvim-lspconfig.servers.ts_ls')(on_attach),
+  yamlls = {},
+}
+
+local server_names = {}
+local server_configs = {}
+for server_name, server_config in pairs(servers) do
+  table.insert(server_names, server_name)
+  server_configs[server_name] = server_config
+end
 
 local lsp_defaults = {
   capabilities = capabilities,
   on_attach = on_attach,
+  flags = {
+    debounce_text_changes = 200,
+    allow_incremental_sync = true,
+  },
 }
 
 local lspconfig = require('lspconfig')
 
+require('mason-lspconfig').setup({
+  ensure_installed = server_names,
+  automatic_installation = false,
+  automatic_enable = false,
+})
+
+-- Setup servers manually since setup_handlers is removed in v2.0+
+for server_name, server_config in pairs(servers) do
+  local merged_config = vim.tbl_deep_extend('force', lsp_defaults, server_config or {})
+  lspconfig[server_name].setup(merged_config)
+  
+  if server_name == 'rust_analyzer' then
+    local present_rust_tools, rust_tools = pcall(require, 'rust-tools')
+    if present_rust_tools then
+      rust_tools.setup({ server = merged_config })
+    end
+  end
+end
+
 lspconfig.util.default_config = vim.tbl_deep_extend('force', lspconfig.util.default_config, lsp_defaults)
-
-lspconfig.bashls.setup({
-  filetypes = { 'sh', 'zsh' },
-})
-
-lspconfig.gopls.setup({})
-
-lspconfig.jsonls.setup({
-  settings = {
-    json = {
-      schemas = require('schemastore').json.schemas(),
-      validate = { enable = true },
-    },
-  },
-})
-
-lspconfig.lua_ls.setup({
-  settings = {
-    Lua = {
-      workspace = { checkThirdParty = false },
-      telemetry = { enable = false },
-    },
-  },
-})
-
-lspconfig.marksman.setup({})
-
-lspconfig.pyright.setup({})
-
-lspconfig.rust_analyzer.setup({})
-
-lspconfig.tsserver.setup({})
-
-lspconfig.vimls.setup({})
-
-lspconfig.yamlls.setup({
-  settings = {
-    redhat = {
-      telemetry = {
-        enabled = false,
-      },
-    },
-    yaml = {
-      schemaStore = {
-        enable = false,
-      },
-      keyOrdering = false,
-    },
-  },
-})
-
-lspconfig.tflint.setup({})
-
-lspconfig.eslint.setup({})
-
-lspconfig.graphql.setup({})
-
-lspconfig.terraformls.setup({})
 
 lspconfig.cssls.setup({})

@@ -12,9 +12,7 @@ RIGHT_SIZE="35"
 # Get the Claude pane ID if it exists
 get_claude_pane() {
     tmux list-panes -F '#{pane_id} #{pane_title}' 2>/dev/null | \
-        grep "$CLAUDE_PANE_TITLE" | \
-        awk '{print $1}' | \
-        head -1
+        awk -v title="$CLAUDE_PANE_TITLE" '$0 ~ title {print $1; exit}'
 }
 
 # Get current layout preference (bottom or right)
@@ -96,9 +94,7 @@ toggle() {
             # First select the non-Claude pane, then zoom
             local main_pane
             main_pane=$(tmux list-panes -F '#{pane_id} #{pane_title}' | \
-                        grep -v "$CLAUDE_PANE_TITLE" | \
-                        awk '{print $1}' | \
-                        head -1)
+                        awk -v title="$CLAUDE_PANE_TITLE" '$0 !~ title {print $1; exit}')
             if [[ -n "$main_pane" ]]; then
                 tmux select-pane -t "$main_pane"
                 tmux resize-pane -Z

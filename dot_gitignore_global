@@ -1,0 +1,111 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Editors - VS Code
+.vscode/
+*.code-workspace
+
+# Editors - JetBrains
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Editors - Vim/Neovim
+*.swp
+*.swo
+*~
+.netrwhist
+tags
+
+# Editors - Sublime
+*.sublime-workspace
+*.sublime-project
+
+# Editors - Emacs
+*~
+\#*\#
+.#*
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn-integrity
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+.venv/
+env/
+.env
+*.egg-info/
+dist/
+build/
+
+# Ruby
+*.gem
+.bundle/
+vendor/bundle
+
+# Go
+vendor/
+
+# Rust
+target/
+Cargo.lock
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+target/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+*.local.env
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# OS generated
+*.bak
+*.backup
+
+# Coverage reports
+coverage/
+.nyc_output/
+htmlcov/
+.coverage
+
+# Build artifacts
+*.min.js
+*.min.css
+*.map

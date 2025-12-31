@@ -1,0 +1,110 @@
+[user]
+	name = {{ .name }}
+	email = {{ .email }}
+{{- if .gpg_signing_key }}
+	signingkey = {{ .gpg_signing_key }}
+{{- end }}
+
+[init]
+	defaultBranch = main
+
+[core]
+	editor = nvim
+	excludesfile = ~/.gitignore_global
+	autocrlf = input
+	pager = delta
+
+[pull]
+	rebase = true
+
+[push]
+	autoSetupRemote = true
+	default = current
+
+[fetch]
+	prune = true
+
+[rebase]
+	autoStash = true
+	committerDateIsAuthorDate = true
+
+[rerere]
+	enabled = true
+
+[diff]
+	colorMoved = default
+	tool = diffmerge
+
+[difftool "diffmerge"]
+	cmd = diffmerge \"$LOCAL\" \"$REMOTE\"
+
+[merge]
+	conflictstyle = diff3
+	tool = diffmerge
+
+[mergetool "diffmerge"]
+	cmd = "diffmerge --merge --result=\"$MERGED\" \"$LOCAL\" \"$(if test -f \"$BASE\"; then echo \"$BASE\"; else echo \"$LOCAL\"; fi)\" \"$REMOTE\""
+	trustExitCode = true
+
+[mergetool]
+	keepBackup = false
+
+[delta]
+	navigate = true
+	light = false
+	line-numbers = true
+	side-by-side = true
+
+[interactive]
+	diffFilter = delta --color-only
+
+[alias]
+	# Basic shortcuts
+	co = checkout
+	ci = commit
+	cob = checkout -b
+	cm = commit -m
+	br = branch
+	st = status
+	aa = add -A .
+	amend = commit --amend -m
+
+	# Branch switching with pull
+	dev = !git checkout develop && git pull origin develop
+	staging = !git checkout staging && git pull origin staging
+	master = !git checkout master && git pull origin master
+	main = !git checkout main && git pull origin main
+
+	# Push shortcuts
+	po = push origin
+	pod = push origin develop
+	pos = push origin staging
+	pom = push origin master
+
+	# Pull shortcuts
+	plo = pull origin
+	plod = pull origin develop
+	plos = pull origin staging
+	plom = pull origin master
+
+	# Log aliases
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	ll = log --oneline -n 20
+	last = log -1 HEAD --stat
+
+	# Utility
+	unstage = reset HEAD --
+	undo = reset --soft HEAD~1
+	wip = !git add -A && git commit -m 'WIP'
+	branches = branch -a
+	remotes = remote -v
+	contributors = shortlog --summary --numbered
+
+{{- if .gpg_signing_key }}
+
+[commit]
+	gpgsign = true
+
+[tag]
+	gpgsign = true
+{{- end }}

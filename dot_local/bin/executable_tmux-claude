@@ -1,0 +1,210 @@
+#!/usr/bin/env bash
+# tmux-claude: Toggle and manage Claude Code pane in tmux
+# Usage: tmux-claude toggle | switch-layout | kill | check
+# Layout preference stored in: ~/.config/tmux-claude-layout
+
+set -euo pipefail
+
+CLAUDE_PANE_TITLE="claude-code"
+BOTTOM_SIZE="35"
+RIGHT_SIZE="35"
+
+# Get the Claude pane ID if it exists
+get_claude_pane() {
+    tmux list-panes -F '#{pane_id} #{pane_title}' 2>/dev/null | \
+        awk -v title="$CLAUDE_PANE_TITLE" '$0 ~ title {print $1; exit}'
+}
+
+# Get current layout preference (bottom or right)
+get_layout() {
+    if [[ -f "$HOME/.config/tmux-claude-layout" ]]; then
+        cat "$HOME/.config/tmux-claude-layout"
+    else
+        echo "bottom"
+    fi
+}
+
+# Save layout preference
+save_layout() {
+    echo "$1" > "$HOME/.config/tmux-claude-layout"
+}
+
+# Check if Claude pane is visible (not zoomed away)
+is_pane_visible() {
+    local pane_id="$1"
+    local zoomed
+    zoomed=$(tmux display-message -p '#{window_zoomed_flag}')
+
+    if [[ "$zoomed" == "1" ]]; then
+        # Window is zoomed, check if Claude pane is the zoomed one
+        local active_pane
+        active_pane=$(tmux display-message -p '#{pane_id}')
+        [[ "$active_pane" == "$pane_id" ]]
+    else
+        # Window not zoomed, pane is visible
+        return 0
+    fi
+}
+
+# Create Claude pane
+create_pane() {
+    local layout="$1"
+    local pane_id
+
+    # Verify claude CLI is available
+    if ! command -v claude &> /dev/null; then
+        tmux display-message "Error: 'claude' CLI not found in PATH"
+        return 1
+    fi
+
+    if [[ "$layout" == "right" ]]; then
+        pane_id=$(tmux split-window -h -p "$RIGHT_SIZE" -P -F '#{pane_id}' -c "#{pane_current_path}")
+    else
+        pane_id=$(tmux split-window -v -p "$BOTTOM_SIZE" -P -F '#{pane_id}' -c "#{pane_current_path}")
+    fi
+
+    # Set pane title for identification
+    tmux select-pane -t "$pane_id" -T "$CLAUDE_PANE_TITLE"
+
+    # Start Claude with IDE mode
+    tmux send-keys -t "$pane_id" "claude --ide" Enter
+
+    # Return focus to the original pane
+    tmux select-pane -t "{last}"
+}
+
+# Toggle Claude pane visibility
+toggle() {
+    local pane_id
+    pane_id=$(get_claude_pane)
+
+    if [[ -z "$pane_id" ]]; then
+        # No Claude pane exists, create one
+        create_pane "$(get_layout)"
+    else
+        # Claude pane exists, toggle zoom to show/hide
+        local zoomed
+        zoomed=$(tmux display-message -p '#{window_zoomed_flag}')
+
+        if [[ "$zoomed" == "1" ]]; then
+            # Currently zoomed, unzoom to show Claude
+            tmux resize-pane -Z
+        else
+            # Not zoomed, zoom main pane to hide Claude
+            # First select the non-Claude pane, then zoom
+            local main_pane
+            main_pane=$(tmux list-panes -F '#{pane_id} #{pane_title}' | \
+                        awk -v title="$CLAUDE_PANE_TITLE" '$0 !~ title {print $1; exit}')
+            if [[ -n "$main_pane" ]]; then
+                tmux select-pane -t "$main_pane"
+                tmux resize-pane -Z
+            fi
+        fi
+    fi
+}
+
+# Switch between bottom and right layouts
+switch_layout() {
+    local pane_id
+    pane_id=$(get_claude_pane)
+    local current_layout
+    current_layout=$(get_layout)
+    local new_layout
+
+    if [[ "$current_layout" == "bottom" ]]; then
+        new_layout="right"
+    else
+        new_layout="bottom"
+    fi
+
+    save_layout "$new_layout"
+
+    if [[ -n "$pane_id" ]]; then
+        # Kill existing pane and recreate with new layout
+        tmux kill-pane -t "$pane_id"
+        create_pane "$new_layout"
+    fi
+
+    tmux display-message "Claude layout: $new_layout"
+}
+
+# Kill Claude pane
+kill_pane() {
+    local pane_id
+    pane_id=$(get_claude_pane)
+
+    if [[ -n "$pane_id" ]]; then
+        tmux kill-pane -t "$pane_id"
+        tmux display-message "Claude pane closed"
+    else
+        tmux display-message "No Claude pane found"
+    fi
+}
+
+# Check environment and setup
+check() {
+    echo "Checking Claude Code + tmux integration..."
+    echo ""
+
+    # Check claude CLI
+    if command -v claude &> /dev/null; then
+        echo "✓ claude CLI found: $(which claude)"
+    else
+        echo "✗ claude CLI not found in PATH"
+    fi
+
+    # Check tmux
+    if command -v tmux &> /dev/null; then
+        echo "✓ tmux found: $(tmux -V)"
+    else
+        echo "✗ tmux not found"
+    fi
+
+    # Check for running tmux session
+    if [[ -n "${TMUX:-}" ]]; then
+        echo "✓ Running inside tmux session"
+    else
+        echo "○ Not running inside tmux session"
+    fi
+
+    # Check layout preference
+    echo ""
+    echo "Layout preference: $(get_layout)"
+    echo "Config file: ~/.config/tmux-claude-layout"
+
+    # Check for existing Claude pane (only if in tmux)
+    if [[ -n "${TMUX:-}" ]]; then
+        local pane_id
+        pane_id=$(get_claude_pane)
+        if [[ -n "$pane_id" ]]; then
+            echo "✓ Claude pane active: $pane_id"
+        else
+            echo "○ No Claude pane currently active"
+        fi
+    fi
+
+    echo ""
+    echo "Keybinds (in tmux):"
+    echo "  Ctrl+Space a  - Toggle Claude pane"
+    echo "  Ctrl+Space A  - Switch layout (bottom/right)"
+}
+
+# Main
+case "${1:-toggle}" in
+    toggle)
+        toggle
+        ;;
+    switch-layout)
+        switch_layout
+        ;;
+    kill)
+        kill_pane
+        ;;
+    check)
+        check
+        ;;
+    *)
+        echo "Usage: tmux-claude [toggle|switch-layout|kill|check]"
+        exit 1
+        ;;
+esac

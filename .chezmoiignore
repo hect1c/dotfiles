@@ -1,0 +1,12 @@
+README.md
+docs/
+.git/
+
+{{- if eq .chezmoi.os "linux" }}
+# Mac-only
+Library/
+{{- end }}
+
+{{- if eq .chezmoi.os "darwin" }}
+# Linux-only
+{{- end }}

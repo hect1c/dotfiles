@@ -1,0 +1,9 @@
+[data]
+    name = "Hartley Jean-Aimee"
+{{- if eq .chezmoi.os "darwin" }}
+    os = "darwin"
+    brew_prefix = "/opt/homebrew"
+{{- else if eq .chezmoi.os "linux" }}
+    os = "linux"
+    brew_prefix = "/home/linuxbrew/.linuxbrew"
+{{- end }}

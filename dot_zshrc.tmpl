@@ -1,0 +1,117 @@
+# Cross-platform zshrc managed by chezmoi
+# OS: {{ .chezmoi.os }}
+
+################################################################################
+# Oh-My-Zsh Setup
+################################################################################
+export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME="robbyrussell"
+
+plugins=(
+  git
+  history
+  npm
+  nvm
+  docker
+  tmux
+  poetry
+{{- if eq .chezmoi.os "darwin" }}
+  iterm2
+{{- end }}
+)
+
+source $ZSH/oh-my-zsh.sh
+
+################################################################################
+# PATH Configuration
+################################################################################
+{{- if eq .chezmoi.os "darwin" }}
+# macOS Homebrew paths
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+export PNPM_HOME="$HOME/Library/pnpm"
+{{- else }}
+# Linux Linuxbrew paths
+export PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:$PATH"
+export PNPM_HOME="$HOME/.local/share/pnpm"
+{{- end }}
+
+# Common paths
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+# pnpm
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+################################################################################
+# nvm
+################################################################################
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+# Auto-switch node version on .nvmrc
+autoload -U add-zsh-hook
+load-nvmrc() {
+  local node_version="$(nvm version)"
+  local nvmrc_path="$(nvm_find_nvmrc)"
+
+  if [ -n "$nvmrc_path" ]; then
+    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+
+    if [ "$nvmrc_node_version" = "N/A" ]; then
+      nvm install
+    elif [ "$nvmrc_node_version" != "$node_version" ]; then
+      nvm use
+    fi
+  elif [ "$node_version" != "$(nvm version default)" ]; then
+    echo "Reverting to nvm default version"
+    nvm use default
+  fi
+}
+add-zsh-hook chpwd load-nvmrc
+load-nvmrc
+
+################################################################################
+# pyenv
+################################################################################
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+################################################################################
+# Terraform Completion
+################################################################################
+autoload -U +X bashcompinit && bashcompinit
+{{- if eq .chezmoi.os "darwin" }}
+complete -o nospace -C /opt/homebrew/bin/terraform terraform
+{{- else }}
+complete -o nospace -C /home/linuxbrew/.linuxbrew/bin/terraform terraform
+{{- end }}
+
+################################################################################
+# Aliases
+################################################################################
+# Neovim
+alias vim="nvim"
+alias vimdiff="nvim -d"
+alias v=nvim
+export EDITOR="nvim"
+
+# Lazygit
+alias c=lazygit
+export CONFIG_DIR=$HOME/.config/lazygit
+
+# Chezmoi
+alias cz="chezmoi"
+alias cze="chezmoi edit"
+alias cza="chezmoi apply"
+alias czd="chezmoi diff"
+
+################################################################################
+# Starship Prompt
+################################################################################
+eval "$(starship init zsh)"

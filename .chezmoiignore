@@ -9,4 +9,5 @@ Library/
 
 {{- if eq .chezmoi.os "darwin" }}
 # Linux-only
+.local/share/fonts/
 {{- end }}

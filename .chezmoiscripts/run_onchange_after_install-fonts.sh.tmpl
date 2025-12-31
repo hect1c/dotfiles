@@ -1,0 +1,15 @@
+{{- if eq .chezmoi.os "linux" -}}
+#!/bin/bash
+# MonoLisa fonts hash: {{ include "dot_local/private_share/private_fonts/encrypted_MonoLisa-Regular.otf.age" | sha256sum }}
+set -e
+
+echo "Refreshing font cache for Linux..."
+
+# Ensure fonts directory exists
+mkdir -p ~/.local/share/fonts
+
+# Refresh font cache
+fc-cache -fv
+
+echo "Font cache refreshed!"
+{{- end -}}

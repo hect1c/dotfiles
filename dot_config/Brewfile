@@ -1,0 +1,255 @@
+# Brewfile - Declarative package management for macOS
+# Managed by chezmoi | Install: brew bundle --file=~/.config/Brewfile
+# Cleanup unused: brew bundle cleanup --file=~/.config/Brewfile
+
+# ==============================================================================
+# TAPS - Third-party repositories
+# ==============================================================================
+tap "homebrew/services"
+
+# Infrastructure/Cloud
+tap "hashicorp/tap"
+tap "pulumi/tap"
+
+# Development tools
+tap "ariga/tap"           # Atlas (database schema management)
+
+# Window management
+tap "koekeishiya/formulae" # yabai & skhd
+
+# Other services
+tap "heroku/brew"
+
+# ==============================================================================
+# CORE CLI TOOLS
+# ==============================================================================
+
+# Shell & Prompt
+brew "starship"           # Cross-shell prompt
+brew "tmux"               # Terminal multiplexer
+
+# File & Text Operations
+brew "ripgrep"            # Fast search (rg)
+brew "tree"               # Directory tree viewer
+brew "wget"               # File downloader
+brew "gnu-sed"            # GNU sed for scripting
+
+# Version Control
+brew "gh"                 # GitHub CLI
+brew "lazygit"            # Terminal UI for git
+brew "git-filter-repo"    # Git history rewriting
+
+# Security
+brew "gnupg"              # GPG encryption
+brew "mkcert"             # Local TLS certificates
+
+# ==============================================================================
+# DEVELOPMENT - Languages & Runtimes
+# ==============================================================================
+
+# Node.js
+brew "node"               # JavaScript runtime
+
+# Python
+brew "pyenv"              # Python version manager
+brew "pipx"               # Python CLI tool installer
+brew "uv"                 # Fast Python package installer
+brew "black"              # Python formatter
+
+# Go
+brew "go"                 # Go programming language
+
+# ==============================================================================
+# DEVELOPMENT - Editors & Tools
+# ==============================================================================
+
+# Neovim ecosystem
+brew "neovim"             # Modern Vim
+brew "stylua"             # Lua formatter
+brew "luv"                # Lua bindings (for nvim plugins)
+
+# Build tools
+brew "cmake"              # Build system generator
+brew "gcc"                # GNU Compiler Collection
+brew "pkgconf"            # Package config helper
+
+# ==============================================================================
+# CLOUD & INFRASTRUCTURE
+# ==============================================================================
+
+# Cloud CLIs
+brew "awscli"             # AWS CLI
+brew "azure-cli"          # Azure CLI
+
+# Infrastructure as Code
+brew "hashicorp/tap/terraform"  # Terraform
+brew "pulumi/tap/pulumi"        # Pulumi
+brew "terraformer"              # Generate IaC from existing infra
+
+# Kubernetes
+brew "helm"               # K8s package manager
+
+# Platform CLIs
+brew "heroku/brew/heroku" # Heroku CLI
+
+# Database tools
+brew "ariga/tap/atlas"    # Database schema management
+brew "libpq"              # PostgreSQL client library
+
+# ==============================================================================
+# SYSTEM MONITORING
+# ==============================================================================
+
+brew "btop"               # Resource monitor (better htop)
+brew "bottom"             # Another system monitor
+
+# ==============================================================================
+# WINDOW MANAGEMENT (macOS)
+# ==============================================================================
+
+brew "koekeishiya/formulae/yabai"  # Tiling window manager
+brew "koekeishiya/formulae/skhd"   # Hotkey daemon
+
+# ==============================================================================
+# DOTFILE MANAGEMENT
+# ==============================================================================
+
+brew "chezmoi"            # Dotfile manager (current)
+brew "yadm"               # Dotfile manager (migrating from)
+brew "mackup"             # App settings backup
+
+# ==============================================================================
+# DEVELOPMENT - CI/CD & Testing
+# ==============================================================================
+
+brew "act"                # Run GitHub Actions locally
+
+# ==============================================================================
+# DATA SCIENCE / JUPYTER
+# ==============================================================================
+
+brew "jupyterlab"         # Jupyter notebooks
+
+# ==============================================================================
+# MISC UTILITIES
+# ==============================================================================
+
+brew "md5sha1sum", link: true  # Checksum tools
+brew "scrcpy"             # Android screen mirroring
+
+# ==============================================================================
+# DEPENDENCIES (auto-installed, kept for completeness)
+# ==============================================================================
+
+# These are typically pulled in as dependencies but listing ensures consistency
+brew "xz"                 # Compression
+brew "glib"               # GLib library
+brew "cairo"              # 2D graphics library
+brew "harfbuzz"           # Text shaping
+brew "pango"              # Text rendering
+brew "fontforge"          # Font editor (dep for some tools)
+brew "libevent"           # Event library
+brew "gdbm"               # GNU database manager
+brew "pycparser"          # Python C parser
+brew "cffi"               # C FFI for Python
+brew "openblas"           # Linear algebra library
+brew "openssl@1.1"        # OpenSSL (legacy)
+brew "openssl@3.0"        # OpenSSL 3.0
+brew "tcl-tk"             # Tcl/Tk for Python GUI
+
+# ==============================================================================
+# CASKS - GUI Applications
+# ==============================================================================
+
+# Terminal
+cask "kitty"              # GPU-accelerated terminal
+
+# Development
+cask "diffmerge"          # Visual diff/merge tool
+cask "ngrok"              # Secure tunnels
+
+# Cloud & DevOps
+cask "gcloud-cli"         # Google Cloud CLI
+cask "clickhouse"         # ClickHouse database
+
+# Mobile Development
+cask "android-platform-tools"  # Android ADB/fastboot
+
+# Languages & Runtimes
+cask "dotnet-runtime"     # .NET runtime
+cask "miniconda"          # Conda for Python
+cask "powershell"         # PowerShell Core
+
+# Fonts
+cask "font-fira-code"     # Programming font with ligatures
+
+# ==============================================================================
+# POTENTIALLY MACHINE-SPECIFIC (review before using on other machines)
+# ==============================================================================
+
+# Game development - uncomment if needed
+# cask "godot"            # Godot game engine
+
+# Optimization libraries - needed for specific projects
+# brew "coinutils"        # COIN-OR utilities
+# brew "osi"              # COIN-OR open solver interface
+# brew "clp"              # COIN-OR linear programming
+# brew "cgl"              # COIN-OR cut generator library
+# brew "cbc"              # COIN-OR branch and cut
+
+# .NET/C# development - uncomment if needed
+# tap "omnisharp/omnisharp-roslyn"
+# brew "mono"
+# brew "omnisharp/omnisharp-roslyn/omnisharp-mono"
+
+# Localization tools - uncomment if needed
+# tap "crowdin/crowdin"
+# brew "crowdin/crowdin/crowdin@3"
+
+# Observability - uncomment if needed
+# tap "baselime/tap"
+# brew "baselime/tap/baselime"
+
+# ==============================================================================
+# VSCODE EXTENSIONS (optional - uncomment to manage via brew bundle)
+# ==============================================================================
+
+# NOTE: VS Code extensions can be managed via brew bundle but many prefer
+# to sync via VS Code's built-in Settings Sync. Uncomment if you want
+# declarative management.
+
+# Core
+# vscode "vscodevim.vim"
+# vscode "editorconfig.editorconfig"
+# vscode "esbenp.prettier-vscode"
+# vscode "dbaeumer.vscode-eslint"
+
+# GitHub/Git
+# vscode "eamodio.gitlens"
+# vscode "github.copilot"
+# vscode "github.copilot-chat"
+# vscode "github.vscode-github-actions"
+
+# Themes & Icons
+# vscode "catppuccin.catppuccin-vsc"
+# vscode "pkief.material-icon-theme"
+# vscode "emmanuelbeziat.vscode-great-icons"
+
+# Languages
+# vscode "ms-python.python"
+# vscode "ms-python.vscode-pylance"
+# vscode "hashicorp.terraform"
+# vscode "ms-dotnettools.csharp"
+
+# Docker/Containers
+# vscode "ms-azuretools.vscode-docker"
+# vscode "ms-vscode-remote.remote-containers"
+
+# ==============================================================================
+# CARGO PACKAGES (Rust - optional, uncomment if not installing via rustup)
+# ==============================================================================
+
+# NOTE: These are often better installed via cargo directly if you use rustup
+# cargo "fd-find"         # Fast find alternative
+# cargo "ripgrep"         # Fast grep (also available via brew)
+# cargo "stylua"          # Lua formatter (also available via brew)

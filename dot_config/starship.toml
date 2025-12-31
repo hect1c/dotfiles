@@ -1,0 +1,160 @@
+# Starship Prompt Configuration
+# Theme: Catppuccin Mocha
+
+# Catppuccin Mocha Palette
+palette = "catppuccin_mocha"
+
+[palettes.catppuccin_mocha]
+rosewater = "#f5e0dc"
+flamingo = "#f2cdcd"
+pink = "#f5c2e7"
+mauve = "#cba6f7"
+red = "#f38ba8"
+maroon = "#eba0ac"
+peach = "#fab387"
+yellow = "#f9e2af"
+green = "#a6e3a1"
+teal = "#94e2d5"
+sky = "#89dceb"
+sapphire = "#74c7ec"
+blue = "#89b4fa"
+lavender = "#b4befe"
+text = "#cdd6f4"
+subtext1 = "#bac2de"
+subtext0 = "#a6adc8"
+overlay2 = "#9399b2"
+overlay1 = "#7f849c"
+overlay0 = "#6c7086"
+surface2 = "#585b70"
+surface1 = "#45475a"
+surface0 = "#313244"
+base = "#1e1e2e"
+mantle = "#181825"
+crust = "#11111b"
+
+# Prompt Format
+format = """
+[](blue)\
+$os\
+$username\
+[](bg:sapphire fg:blue)\
+$directory\
+[](fg:sapphire bg:green)\
+$git_branch\
+$git_status\
+[](fg:green bg:teal)\
+$nodejs\
+$rust\
+$golang\
+$python\
+$lua\
+[](fg:teal bg:surface1)\
+$cmd_duration\
+[](fg:surface1)\
+$line_break\
+$character"""
+
+# OS Detection
+[os]
+disabled = false
+style = "bg:blue fg:crust"
+format = "[ $symbol ]($style)"
+
+[os.symbols]
+Macos = ""
+Linux = ""
+Windows = ""
+
+# Username
+[username]
+show_always = false
+style_user = "bg:blue fg:crust"
+style_root = "bg:red fg:crust"
+format = "[$user ]($style)"
+disabled = false
+
+# Directory
+[directory]
+style = "bg:sapphire fg:crust"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = ".../"
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+"Developer" = " "
+"~" = " "
+
+# Git Branch
+[git_branch]
+symbol = ""
+style = "bg:green fg:crust"
+format = "[ $symbol $branch ]($style)"
+
+# Git Status
+[git_status]
+style = "bg:green fg:crust"
+format = "[$all_status$ahead_behind ]($style)"
+conflicted = "="
+ahead = "⇡${count}"
+behind = "⇣${count}"
+diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+up_to_date = ""
+untracked = "?${count}"
+stashed = "$"
+modified = "!${count}"
+staged = "+${count}"
+renamed = "»${count}"
+deleted = "✘${count}"
+
+# Node.js
+[nodejs]
+symbol = ""
+style = "bg:teal fg:crust"
+format = "[ $symbol ($version) ]($style)"
+detect_files = ["package.json", ".node-version"]
+detect_folders = ["node_modules"]
+
+# Rust
+[rust]
+symbol = ""
+style = "bg:teal fg:crust"
+format = "[ $symbol ($version) ]($style)"
+
+# Go
+[golang]
+symbol = ""
+style = "bg:teal fg:crust"
+format = "[ $symbol ($version) ]($style)"
+
+# Python
+[python]
+symbol = ""
+style = "bg:teal fg:crust"
+format = "[ $symbol ($version) ]($style)"
+detect_files = ["requirements.txt", "pyproject.toml", "Pipfile", ".python-version"]
+
+# Lua
+[lua]
+symbol = ""
+style = "bg:teal fg:crust"
+format = "[ $symbol ($version) ]($style)"
+
+# Command Duration
+[cmd_duration]
+min_time = 500
+style = "bg:surface1 fg:text"
+format = "[ 󰔛 $duration ]($style)"
+
+# Line Break
+[line_break]
+disabled = false
+
+# Character (prompt indicator)
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
+vimcmd_symbol = "[❮](bold mauve)"

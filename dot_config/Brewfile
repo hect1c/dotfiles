@@ -167,6 +167,7 @@ cask "kitty"              # GPU-accelerated terminal
 # Development
 cask "diffmerge"          # Visual diff/merge tool
 cask "ngrok"              # Secure tunnels
+cask "postman"            # API development platform
 
 # Cloud & DevOps
 cask "gcloud-cli"         # Google Cloud CLI

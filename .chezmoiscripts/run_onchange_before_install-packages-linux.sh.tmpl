@@ -55,6 +55,14 @@ if ! command -v wezterm &> /dev/null; then
   sudo apt install -y wezterm
 fi
 
+# Postman (via snap)
+if command -v snap &> /dev/null; then
+  if ! snap list postman &> /dev/null; then
+    echo "Installing Postman..."
+    sudo snap install postman
+  fi
+fi
+
 # Nerd Font Symbols
 if [ ! -f "$HOME/.local/share/fonts/SymbolsNerdFont-Regular.ttf" ]; then
   echo "Installing Nerd Font Symbols..."

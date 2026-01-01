@@ -103,6 +103,25 @@ if [ ! -d "$HOME/.oh-my-zsh" ]; then
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 fi
 
+# Claude Code CLI
+if [ -d "$HOME/.nvm" ]; then
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+  # Install Node if not present
+  if ! command -v node &> /dev/null; then
+    echo "Installing Node.js LTS..."
+    nvm install --lts
+    nvm use --lts
+  fi
+
+  # Install Claude Code
+  if ! command -v claude &> /dev/null; then
+    echo "Installing Claude Code CLI..."
+    npm install -g @anthropic-ai/claude-code
+  fi
+fi
+
 # Set zsh as default shell
 if [ "$SHELL" != "$(which zsh)" ]; then
   echo "Setting zsh as default shell..."

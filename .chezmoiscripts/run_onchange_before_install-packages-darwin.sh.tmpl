@@ -31,5 +31,13 @@ if [ ! -d "$HOME/.oh-my-zsh" ]; then
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 fi
 
+# Claude Code CLI
+if command -v npm &> /dev/null; then
+  if ! command -v claude &> /dev/null; then
+    echo "Installing Claude Code CLI..."
+    npm install -g @anthropic-ai/claude-code
+  fi
+fi
+
 echo "✅ macOS packages installed!"
 {{- end -}}

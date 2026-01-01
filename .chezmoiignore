@@ -11,3 +11,20 @@ Library/
 # Linux-only
 .local/share/fonts/
 {{- end }}
+
+# Claude Code - ignore transient/cache files
+.claude/plugins/
+.claude/projects/
+.claude/debug/
+.claude/file-history/
+.claude/plans/
+.claude/session-env/
+.claude/shell-snapshots/
+.claude/statsig/
+.claude/telemetry/
+.claude/todos/
+.claude/*.jsonl
+.claude/*.log
+.claude/stats-cache.json
+.claude/.checksums
+.claude/.claude/

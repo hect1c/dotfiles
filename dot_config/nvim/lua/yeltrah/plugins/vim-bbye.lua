@@ -1,5 +1,0 @@
-return {
-  {
-    'moll/vim-bbye',
-  },
-}

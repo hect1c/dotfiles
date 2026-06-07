@@ -28,3 +28,8 @@ Library/
 .claude/stats-cache.json
 .claude/.checksums
 .claude/.claude/
+
+# nvim: machine-local + transient (do not sync)
+.config/nvim/.claude/
+.config/nvim/*.log
+.config/nvim/docs/

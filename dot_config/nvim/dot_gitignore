@@ -1,0 +1,9 @@
+# Neovim runtime / state (not part of config)
+*.log
+.DS_Store
+
+# Machine-local Claude Code settings (never commit to dotfiles)
+.claude/settings.local.json
+
+# Refactor planning docs (not part of the runtime config)
+docs/

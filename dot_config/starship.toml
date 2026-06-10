@@ -1,6 +1,9 @@
 # Starship Prompt Configuration
 # Theme: Catppuccin Mocha
 
+# Raise from default 500ms — pyenv shims are slow to resolve on cold cache
+command_timeout = 1000
+
 # Catppuccin Mocha Palette
 palette = "catppuccin_mocha"
 

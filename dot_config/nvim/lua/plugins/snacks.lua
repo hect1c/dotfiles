@@ -18,7 +18,7 @@ return {
    ╚═╝   ╚══════╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝]],
       },
     },
-    explorer = { enabled = true },
+    explorer = { enabled = true, replace_netrw = false },
     indent = { enabled = true },
     input = { enabled = true },
     notifier = { enabled = true, timeout = 3000 },
@@ -27,9 +27,12 @@ return {
     statuscolumn = { enabled = true },
     words = { enabled = true },
     picker = {
+      -- hidden = dotfiles (.env), ignored = gitignored files (.env is usually both)
+      -- exclude kills the noise that ignored=true would otherwise pull in
+      exclude = { ".git", "node_modules", ".DS_Store" },
       sources = {
-        files  = { hidden = true, ignored = false },
-        explorer = { hidden = true, git_status = true, follow_file = true, auto_close = true },
+        files  = { hidden = true, ignored = true },
+        explorer = { hidden = true, ignored = true, git_status = true, follow_file = true, auto_close = true },
       },
     },
   },

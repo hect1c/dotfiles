@@ -56,11 +56,19 @@ set-window-option -g mode-keys vi
 #───────────────────────────────────────────────────────────────
 # Plugins
 #───────────────────────────────────────────────────────────────
+set-environment -g TMUX_PLUGIN_MANAGER_PATH '~/.tmux/plugins'
 set -g @plugin 'tmux-plugins/tpm'
 set -g @plugin 'tmux-plugins/tmux-sensible'
 set -g @plugin 'tmux-plugins/tmux-yank'
 set -g @plugin 'tmux-plugins/tmux-resurrect'
 set -g @plugin 'tmux-plugins/tmux-continuum'
+set -g @resurrect-capture-pane-contents 'on'
+# Restart these programs on restore (~ = match anywhere in the saved command).
+# Claude panes re-run their saved `claude --resume <id>` command.
+set -g @resurrect-processes 'ssh psql mysql lazygit btop "~claude" "~npm run" "~pnpm" "~yarn" "~uv run"'
+# Auto-save every 15 min; auto-restore the last save when the tmux server starts
+set -g @continuum-save-interval '15'
+set -g @continuum-restore 'on'
 
 #───────────────────────────────────────────────────────────────
 # Catppuccin Mocha

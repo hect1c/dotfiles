@@ -3,6 +3,16 @@ encryption = "age"
     identity = "~/.config/chezmoi/key.txt"
     recipient = "age1mkfyuzsautdfttem05me0mpatq39nrq55ndkracxn2ya7jle0cyq5wvpzn"
 
+[edit]
+    command = "nvim"
+
+[diff]
+    pager = "delta"
+
+[merge]
+    command = "nvim"
+    args = ["-d", "{{ "{{" }} .Destination {{ "}}" }}", "{{ "{{" }} .Source {{ "}}" }}", "{{ "{{" }} .Target {{ "}}" }}"]
+
 [data]
     name = "Hartley Jean-Aimee"
     email = "hartley@palqee.com"

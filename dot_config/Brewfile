@@ -164,6 +164,9 @@ brew "tcl-tk"             # Tcl/Tk for Python GUI
 # Terminal
 cask "kitty"              # GPU-accelerated terminal
 
+# Window management
+cask "omniwm"             # Tiling window manager (config: ~/.config/omniwm)
+
 # Development
 cask "diffmerge"          # Visual diff/merge tool
 cask "ngrok"              # Secure tunnels

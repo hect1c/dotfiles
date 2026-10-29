@@ -33,3 +33,6 @@ Library/
 .config/nvim/.claude/
 .config/nvim/*.log
 .config/nvim/docs/
+
+# omniwm: keep only live settings, not editor backups
+.config/omniwm/*.bak*
